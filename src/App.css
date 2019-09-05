@@ -1,0 +1,11 @@
+section {
+  margin: 32px 0;
+}
+
+.container {
+  padding: 32px;
+}
+
+.card {
+  border: 1px solid black;
+}
