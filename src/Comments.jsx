@@ -1,5 +1,7 @@
 import React from "react";
 
-export default ({ comments }) => {
-  return <p>{comments}</p>;
+export default props => {
+  return props.children.map(comment => (
+    <div dangerouslySetInnerHTML={{ __html: comment.text }} />
+  ));
 };

@@ -1,11 +1,13 @@
 import React, { useCallback, useState } from "react";
 import Comments from "./Comments";
 import Content from "./Content";
-import useHnData from "./hooks/useHnData";
+import getSingleHnData from "./hooks/getSingleHnData";
 
-export default ({ author, title }) => {
+const baseUrl = "http://hn.algolia.com/api/v1/items";
+
+export default ({ author, title, objectID }) => {
   const [expanded, setExpanded] = useState(false);
-  const data = useHnData();
+  const data = getSingleHnData(baseUrl, objectID, expanded);
 
   const toggleExpanded = useCallback(() => {
     setExpanded(!expanded);
@@ -16,10 +18,10 @@ export default ({ author, title }) => {
       <h2>{title}</h2>
       <p>{author}</p>
       <button onClick={toggleExpanded}>{expanded ? "Less" : "More"}</button>
-      {expanded ? (
+      {expanded && data ? (
         <>
-          <Content />
-          <Comments />
+          <Content {...data} />
+          <Comments {...data} />
         </>
       ) : null}
     </div>

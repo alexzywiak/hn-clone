@@ -7,9 +7,9 @@ import Article from "./Article";
 const baseUrl = "http://hn.algolia.com/api/v1/";
 
 function App() {
-  const [searchTerm, setSearchTerm] = useState("redux");
+  const [query, setQuery] = useState("redux");
 
-  const data = useHnData(`${baseUrl}search?query=${searchTerm}`);
+  const data = useHnData(`${baseUrl}search?query=${query}`);
 
   return (
     <div className="container">
@@ -18,16 +18,22 @@ function App() {
       </header>
       <section>
         <Search
-          searchTerm={searchTerm}
-          onSubmit={newSearchTerm => {
-            setSearchTerm(newSearchTerm);
+          onSubmit={query => {
+            setQuery(query);
           }}
         />
       </section>
       <section className="articles">
-        {data[0] ? (
-          <Article title={data[0].title} author={data[0].title} />
-        ) : null}
+        {data[0]
+          ? data.map(article => (
+              <Article
+                key={article.objectID}
+                title={article.title}
+                author={article.author}
+                objectID={article.objectID}
+              />
+            ))
+          : null}
       </section>
     </div>
   );
